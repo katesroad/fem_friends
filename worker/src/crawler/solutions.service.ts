@@ -33,14 +33,14 @@ export class SolutionsService {
     let params = { limit, offset: limit };
     while (this.keepGoing) {
       if (!this.isInitialized) {
-        // crawling the latest ${offset} records before having crawled all the data
+        // crawling the latest ${limit} records before having crawled all the data
         console.log(`crawling the latest ${limit} records...`);
         await this.crawlSolutions({ limit, offset: 0 });
       }
       // after crawling the latest ${limit} records, crawling the remaining data
       console.log(`Crawling offset:${params.offset}, limit:${params.limit}`);
       params = await this.crawlSolutions(params);
-      const sleepingTime = Math.ceil(Math.random() * 60000); // Avoid cloudflare service rejection
+      const sleepingTime = Math.ceil(Math.random() * 20000); // Avoid cloudflare service rejection
       await this.helperService.sleep(sleepingTime);
       if (!this.keepGoing) {
         const timeCost = Date.now() - startAt;

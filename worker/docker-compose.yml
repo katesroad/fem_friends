@@ -1,0 +1,18 @@
+# each container should do one thing and do it well
+version: "3.7"
+services:
+  worker:
+    container_name: worker
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/worker
+    ports: 
+      - 9001:9001
+    command: npm run start:dev
+    depends_on: 
+      - redis
+  redis:
+    container_name: redis
+    image: redis:5
