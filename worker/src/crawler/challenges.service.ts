@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron } from '@nestjs/schedule';
-import { ChallengeDoc, Challenge } from 'mongo/schemas';
+import { Cron, Interval } from '@nestjs/schedule';
+import { ChallengeDoc, Challenge, SolutionDoc, Solution } from 'mongo/schemas';
 import { Model } from 'mongoose';
 import { CrawlerService } from './crawler.service';
 import { ErrorService } from './error.service';
@@ -11,6 +11,8 @@ export class ChallengesService {
   constructor(
     @InjectModel(Challenge.name)
     private readonly challengeModel: Model<ChallengeDoc>,
+    @InjectModel(Solution.name)
+    private readonly solutionModel: Model<SolutionDoc>,
     private readonly crawlerService: CrawlerService,
     private readonly errorService: ErrorService,
   ) {}
@@ -25,9 +27,8 @@ export class ChallengesService {
       });
   }
 
-  // get the new challenges at 20:30 p.m everyday
-  @Cron('0 30 20 * * 1-7')
-  handleCronJob() {
+  @Cron('0 30 12 * * 1-7') // get the new challenges at 12:30 p.m everyday in la time
+  cronJobCrawlingChallenges() {
     console.log(`Cron job: crawling challenges.`);
     this.crawlChallenges()
       .then((items) => this.cleanChanllenges(items))
@@ -46,6 +47,20 @@ export class ChallengesService {
           });
         }),
       );
+  }
+
+  @Interval(7200000) //make solutions statistic every 2 hours
+  async cronJobStatsChallengesSolutions() {
+    console.log(`Cron job: make solution statistic for challenges.`);
+    const statsList = await this.solutionModel.aggregate([
+      { $group: { _id: '$challenge', solutions: { $sum: 1 } } },
+    ]);
+    statsList.map((stats) => {
+      const { _id, ...update } = stats;
+      return this.challengeModel.updateOne({ _id }, update).catch((e) => {
+        this.errorService.logError({ type: 'stats solution', error: e }, true);
+      });
+    });
   }
 
   private crawlChallenges() {
