@@ -7,7 +7,7 @@ export interface IErrorInfo {
   type: string;
   error: unknown;
   url?: string;
-  params?: Record<string, string>;
+  data?: Record<string, string>;
 }
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ErrorService {
    * @param{boolean}  useLog log error information to terminal?
    */
   logError(errorInfo: IErrorInfo, useLog?: boolean) {
-    const { params, error, ...rest } = errorInfo;
+    const { data, error, ...rest } = errorInfo;
     if (useLog) {
       this.logger.log(`Error:`);
       this.logger.log(error);
@@ -33,7 +33,7 @@ export class ErrorService {
     return this.errorModel.create({
       ...rest,
       error: JSON.stringify(error),
-      params: JSON.stringify(params),
+      data: JSON.stringify(data),
     });
   }
 }
