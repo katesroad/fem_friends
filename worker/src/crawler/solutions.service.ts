@@ -7,6 +7,7 @@ import { AuthorService } from './author.service';
 import { CrawlerService } from './crawler.service';
 import { ErrorService } from './error.service';
 import { HelperService } from './helper.service';
+import { RedisHelperService } from './redis-helper.service';
 
 @Injectable()
 export class SolutionsService {
@@ -22,21 +23,21 @@ export class SolutionsService {
     private readonly authorService: AuthorService,
     private readonly errorService: ErrorService,
     private readonly helperService: HelperService,
+    private readonly redisService: RedisHelperService,
   ) {}
 
   async onApplicationBootstrap() {
     await this.getPrevCrawlingRange(); // to get the previous crawling range
     const startAt = Date.now();
     const limit = this.limit;
-    const offset = Math.floor(this.limit * 0.2);
-    let params = { limit, offset };
+    let params = { limit, offset: limit };
     while (this.keepGoing) {
       if (!this.isInitialized) {
         // crawling the latest ${offset} records before having crawled all the data
-        console.log(`crawling the latest ${offset} records...`);
-        await this.crawlSolutions({ limit: offset, offset: 0 });
+        console.log(`crawling the latest ${limit} records...`);
+        await this.crawlSolutions({ limit, offset: 0 });
       }
-      // after crawled latest ${offset} records, crawling the remaining data
+      // after crawling the latest ${limit} records, crawling the remaining data
       console.log(`Crawling offset:${params.offset}, limit:${params.limit}`);
       params = await this.crawlSolutions(params);
       const sleepingTime = Math.ceil(Math.random() * 60000); // Avoid cloudflare service rejection
@@ -98,7 +99,10 @@ export class SolutionsService {
     return this.trackSolutionInfo(slug); //the slug points to solution page
   }
 
-  private trackSolutionInfo(solutionSlug: string) {
+  private async trackSolutionInfo(solutionSlug: string) {
+    const hasBeenCrawled = await this.redisService.getCachedValue(solutionSlug);
+    if (!!hasBeenCrawled) return;
+
     const solutionUrl = `https://backend.frontendmentor.io/rest/solutions/${solutionSlug}`;
     return this.crawlerService
       .getUrlReources(solutionUrl)
@@ -128,7 +132,9 @@ export class SolutionsService {
           updatedAt: new Date(updatedAt).getTime(),
           submittedAt: new Date(submittedAt).getTime(),
         };
-        return this.solutionModel.updateOne({ _id }, update, { upsert: true });
+        return this.solutionModel
+          .updateOne({ _id }, update, { upsert: true })
+          .then(() => this.redisService.cacheValue(solutionSlug, solutionSlug));
       })
       .catch((e) => {
         return this.errorService.logError(
@@ -142,7 +148,7 @@ export class SolutionsService {
       });
   }
 
-  // if application crashed, track the latest record in MongoDB
+  // Track the previous crawling record in MongoDB
   private getPrevCrawlingRange() {
     const latest = this.solutionModel
       .aggregate([
