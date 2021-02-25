@@ -4,7 +4,7 @@ import { HelperService } from './helper.service';
 
 @Injectable()
 export class CrawlerService {
-  private retries: { [key: string]: number } = {};
+  private retries: Record<string, number> = {};
   constructor(
     private readonly httpService: HttpService,
     private readonly errorService: ErrorService,
