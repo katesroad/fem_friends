@@ -27,40 +27,47 @@ export class ChallengesService {
       });
   }
 
-  @Cron('0 30 12 * * 1-7') // get the new challenges at 12:30 p.m everyday in la time
+  @Cron('0 30 16 * * 1-7') // get the new challenges at 16:30 p.m everyday in la time
   cronJobCrawlingChallenges() {
     console.log(`Cron job: crawling challenges.`);
     this.crawlChallenges()
       .then((items) => this.cleanChanllenges(items))
       .then((items) =>
         items.map((item) => {
-          return this.challengeModel.create(item).catch((e) => {
-            const { _id, solutions, ...update } = item;
-            return this.challengeModel
-              .updateOne({ _id }, update, { upsert: true })
-              .catch((e) => {
-                this.errorService.logError(
-                  { error: e, type: 'save challenge' },
-                  true,
-                );
-              });
-          });
+          const { _id, ...update } = item;
+          delete update.solutions;
+          return this.challengeModel
+            .updateOne({ _id }, update, { upsert: true })
+            .catch((e) => {
+              this.errorService.logError(
+                { error: e, type: 'save challenge' },
+                true,
+              );
+            });
         }),
-      );
+      )
+      .then(() => console.log('Finished Cron job: crawling challenges'));
   }
 
   @Interval(7200000) //make solutions statistic every 2 hours
   async cronJobStatsChallengesSolutions() {
-    console.log(`Cron job: make solution statistic for challenges.`);
+    console.log(`Cron job: making solution statistic for challenges.`);
     const statsList = await this.solutionModel.aggregate([
       { $group: { _id: '$challenge', solutions: { $sum: 1 } } },
     ]);
-    statsList.map((stats) => {
-      const { _id, ...update } = stats;
-      return this.challengeModel.updateOne({ _id }, update).catch((e) => {
-        this.errorService.logError({ type: 'stats solution', error: e }, true);
-      });
-    });
+    return Promise.all(
+      statsList.map((stats) => {
+        const { _id, ...update } = stats;
+        return this.challengeModel
+          .updateOne({ _id }, update, { upsert: true })
+          .catch((e) => {
+            this.errorService.logError(
+              { type: 'stats solution', error: e },
+              true,
+            );
+          });
+      }),
+    ).then(() => console.log('Finished solution statistic for challenges.'));
   }
 
   private crawlChallenges() {
