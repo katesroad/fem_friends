@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron, Interval } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { ChallengeDoc, Challenge, SolutionDoc, Solution } from 'mongo/schemas';
 import { Model } from 'mongoose';
 import { CrawlerService } from './crawler.service';
@@ -49,7 +49,7 @@ export class ChallengesService {
       .then(() => console.log('Finished Cron job: crawling challenges'));
   }
 
-  @Interval(7200000) //make solutions statistic every 2 hours
+  @Cron('00 */120 0-24 * * *') //make solutions statistic every 2 hours
   async cronJobStatsChallengesSolutions() {
     console.log(`Cron job: making solution statistic for challenges.`);
     const statsList = await this.solutionModel.aggregate([
