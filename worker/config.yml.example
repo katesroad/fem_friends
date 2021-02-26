@@ -1,10 +1,12 @@
 db:
   Mongo:
-    uri: mongodb+srv://username:password@host/db?retryWrites=true&w=majority
+    uri: mongodb://mongodb:27017/fem-test
 redis:
   port: 6379
-  host: redis
+  host: redis 
   name: fem
 cron:
-  solution: 
+  solution:
     keepGoing: false
+  challenge:
+    crawWhenStart: fals
