@@ -28,6 +28,7 @@ export class SolutionsService {
     private readonly configService: ConfigService,
   ) {
     this.keepGoing = this.configService.get('cron.solution.keepGoing');
+    if (!this.keepGoing) this.isInitialized = true;
   }
 
   async onApplicationBootstrap() {
