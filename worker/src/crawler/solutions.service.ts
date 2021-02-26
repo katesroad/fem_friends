@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Interval } from '@nestjs/schedule';
 import { Solution, SolutionDoc } from 'mongo/schemas';
@@ -24,7 +25,10 @@ export class SolutionsService {
     private readonly errorService: ErrorService,
     private readonly helperService: HelperService,
     private readonly redisService: RedisHelperService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    this.keepGoing = this.configService.get('cron.solution.keepGoing');
+  }
 
   async onApplicationBootstrap() {
     await this.getPrevCrawlingRange(); // to get the previous crawling range
