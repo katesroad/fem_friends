@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Author, AuthorDoc } from 'mongo/schemas';
+import { Cron } from '@nestjs/schedule';
+import { Author, AuthorDoc, UserStatsDoc, UsersStats } from 'mongo/schemas';
 import { Model } from 'mongoose';
 import { CrawlerService } from './crawler.service';
 import { ErrorService } from './error.service';
@@ -11,6 +12,8 @@ export class AuthorService {
   constructor(
     @InjectModel(Author.name)
     private readonly authorModel: Model<AuthorDoc>,
+    @InjectModel(UsersStats.name)
+    private readonly usersStatsModel: Model<UserStatsDoc>,
     private readonly crawlerService: CrawlerService,
     private readonly errorService: ErrorService,
     private readonly redisService: RedisHelperService,
@@ -58,5 +61,23 @@ export class AuthorService {
       .catch((e) =>
         this.errorService.logError({ type: 'track user', error: e, url }, true),
       );
+  }
+
+  @Cron('0 30 11 * * 1-7*') //stats user data every hour
+  statsUsers() {
+    const statsList = this.authorModel
+      .aggregate([{ $match: { proUser: true } }, { $count: 'total' }])
+      .then((docs) => docs[0]?.total);
+    const totalUsers = this.authorModel
+      .aggregate([{ $count: 'totalUser' }])
+      .then((docs) => docs[0]?.totalUser);
+    Promise.all([statsList, totalUsers]).then((data) => {
+      const [paidUsers, totalUsers] = data;
+      const statsAt = Date.now();
+      const stats = { paidUsers, totalUsers, statsAt };
+      return this.usersStatsModel
+        .create({ paidUsers, totalUsers, statsAt })
+        .catch((e) => this.errorService.logError({ type: 'stats', error: e }));
+    });
   }
 }
