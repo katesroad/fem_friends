@@ -63,7 +63,7 @@ export class AuthorService {
       );
   }
 
-  @Cron('0 30 11 * * 1-7*') //stats user data every hour
+   @Cron('0 30 16 * * 1-7')// get the new challenges at 16:30 p.m everyday in la time
   statsUsers() {
     const statsList = this.authorModel
       .aggregate([{ $match: { proUser: true } }, { $count: 'total' }])
