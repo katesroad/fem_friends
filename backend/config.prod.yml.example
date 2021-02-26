@@ -1,5 +1,0 @@
-db:
-  Mongo:
-    uri: mongodb:username:password//localhost:27017/test
-app:
-  port: 9999

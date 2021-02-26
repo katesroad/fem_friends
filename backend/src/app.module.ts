@@ -10,7 +10,7 @@ import { MongoModule } from 'mongo/mongo.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config],
+      load: [config as any],
     }),
     MongooseModule.forRootAsync({
       inject: [ConfigService],
