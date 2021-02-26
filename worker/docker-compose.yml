@@ -5,13 +5,11 @@ services:
     container_name: worker
     build:
       context: .
-      target: development
+      target: production
+    command: node dist/main
     volumes:
       - .:/usr/src/worker
-    ports: 
-      - 9001:9001
-    command: npm run start:dev
-    depends_on: 
+    depends_on:
       - redis
   redis:
     container_name: redis

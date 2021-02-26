@@ -1,5 +1,7 @@
 db:
   Mongo:
-    uri: mongodb:username:password//localhost:27017/test
-app:
-  port: 9999
+    uri: mongodb+srv://username:password@host/db?retryWrites=true&w=majority
+redis:
+  port: 6379
+  host: redis
+  name: fem
