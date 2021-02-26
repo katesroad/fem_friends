@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
 import { ChallengeDoc, Challenge, SolutionDoc, Solution } from 'mongo/schemas';
@@ -8,6 +9,7 @@ import { ErrorService } from './error.service';
 
 @Injectable()
 export class ChallengesService {
+  private crawlWhenStart = false;
   constructor(
     @InjectModel(Challenge.name)
     private readonly challengeModel: Model<ChallengeDoc>,
@@ -15,9 +17,15 @@ export class ChallengesService {
     private readonly solutionModel: Model<SolutionDoc>,
     private readonly crawlerService: CrawlerService,
     private readonly errorService: ErrorService,
-  ) {}
+    private configService: ConfigService,
+  ) {
+    this.crawlWhenStart = this.configService.get(
+      'cron.challenge.crawWhenStart',
+    );
+  }
 
   async onApplicationBootstrap() {
+    if (!this.crawlWhenStart) return;
     await this.crawlChallenges()
       .then((items) => this.cleanChanllenges(items))
       .then((items) => this.challengeModel.insertMany(items))
