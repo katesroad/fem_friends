@@ -1,10 +1,11 @@
 // eslint-disable-next-line
+import styled from "styled-components/macro";
 import GlobalStyles from "components/Globalstyles";
 import Header from "components/header";
-import { Content } from "components/lib";
+import { Content, ThemedElement } from "components/lib";
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 export default function AppProvider({ children }) {
   const client = new QueryClient();
@@ -21,7 +22,19 @@ export default function AppProvider({ children }) {
             `}
           >
             {children}
-            <Route path="*" component={() => <Redirect to="/" />} />
+            <Route
+              component={() => (
+                <ThemedElement
+                  css={`
+                    padding: 2rem 0;
+                    text-align: center;
+                  `}
+                >
+                  <h2>Can't find this page.</h2>
+                </ThemedElement>
+              )}
+              exact
+            />
           </Content>
         </Switch>
       </BrowserRouter>
