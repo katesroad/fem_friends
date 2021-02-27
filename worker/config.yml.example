@@ -9,4 +9,4 @@ cron:
   solution:
     keepGoing: false
   challenge:
-    crawWhenStart: fals
+    crawWhenStart: false
