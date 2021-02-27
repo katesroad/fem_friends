@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import config from 'config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigService } from '@nestjs/config';
 import { ApiModule } from './api/api.module';
-import { MongoModule } from 'mongo/mongo.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -12,21 +10,8 @@ import { MongoModule } from 'mongo/mongo.module';
       isGlobal: true,
       load: [config as any],
     }),
-    MongooseModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        const mongoConf = config.get('db.Mongo');
-        return {
-          ...mongoConf,
-          useUnifiedTopology: true,
-          useNewUrlParser: true,
-          useCreateIndex: true,
-          useFindAndModify: false,
-        };
-      },
-    }),
-    MongoModule,
     ApiModule,
+    CommonModule,
   ],
 })
 export class AppModule {}

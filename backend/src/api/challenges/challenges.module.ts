@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
 import { ChallengesController } from './challenges.controller';
-import { MongoModule } from 'mongo/mongo.module';
+import { MongoModule } from 'common/mongo';
 
 @Module({
   imports: [MongoModule],

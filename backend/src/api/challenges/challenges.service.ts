@@ -7,7 +7,7 @@ import {
   Solution,
   SolutionDoc,
   Author,
-} from 'mongo/schemas';
+} from 'common/mongo';
 import { SolutionsQueryDto } from './dto/solutions-query.dto';
 
 @Injectable()

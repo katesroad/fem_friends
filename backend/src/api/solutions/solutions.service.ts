@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Solution, SolutionDoc } from 'mongo/schemas';
+import { Solution, SolutionDoc } from 'common/mongo/schemas';
 
 @Injectable()
 export class SolutionsService {
