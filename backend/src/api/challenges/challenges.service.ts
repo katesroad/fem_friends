@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import {
   ChallengeDoc,
   Challenge,
@@ -24,6 +24,9 @@ export class ChallengesService {
   }
 
   getChallengeByFemId(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException(`Chalenge id#${id} is invalid.`);
+    }
     return this.challengeModel.findOne({ _id: id }).then((doc) => {
       if (doc) return this.cleanDocs([doc])[0];
       else throw new BadRequestException(`Can't find challegne #${id}`);
