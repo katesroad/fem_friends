@@ -1,8 +1,0 @@
-db:
-  Mongo:
-    uri: mongodb+srv://fem-worker:ziqiangzili99@cluster0.xssun.mongodb.net/prod-fem?retryWrites=true&w=majority
-app:
-  port: 3000
-  cors:
-    # allowed origins for API server
-    origin: https://www.example.com/, https://example.com/
