@@ -4,6 +4,7 @@ import { Solution, SolutionSchema } from './schemas/solutions.schema';
 import { Author, AuthorSchema } from './schemas/author.schema';
 import { Challenge, ChallengeSchema } from './schemas/challenges.schema';
 import { ConfigService } from '@nestjs/config';
+import { UsersStats, UserstatsSchema } from './schemas/user.schema';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConfigService } from '@nestjs/config';
       { name: Solution.name, schema: SolutionSchema },
       { name: Author.name, schema: AuthorSchema },
       { name: Challenge.name, schema: ChallengeSchema },
+      { name: UsersStats.name, schema: UserstatsSchema },
     ]),
   ],
   exports: [
@@ -31,6 +33,7 @@ import { ConfigService } from '@nestjs/config';
       { name: Solution.name, schema: SolutionSchema },
       { name: Author.name, schema: AuthorSchema },
       { name: Challenge.name, schema: ChallengeSchema },
+      { name: UsersStats.name, schema: UserstatsSchema },
     ]),
   ],
 })

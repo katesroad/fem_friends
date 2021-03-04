@@ -9,4 +9,5 @@ services:
       NODE_ENV: production
     command: node dist/main
     ports:
-      - 8080:3000
+      - 9000:3000
+      - 9999:3001 # development port
