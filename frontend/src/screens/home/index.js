@@ -1,12 +1,13 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
+import * as mediaQueries from "styles/media-queries";
 import { matchSorter } from "match-sorter";
 import { useQueryClient } from "react-query";
 import * as React from "react";
-import { Spinner } from "components/lib";
+import { Content, Spinner } from "components/lib";
+import AppHeader from "components/header";
 import { useChallenges } from "hooks/challenges-hooks";
 import Challenge from "./components/Challenge";
-import { PageHeader, Filter, Title } from "./styles";
 import { NameFilter } from "./components/Filter";
 
 export default function HomeScreen() {
@@ -28,37 +29,77 @@ export default function HomeScreen() {
 		setChallenges(result);
 	}, [data, search]);
 
-	if (status === "loading" || status === "idle") return <Spinner />;
+	if (["idle", "loading"].includes(status)) return <Spinner />;
 	if (status === "failed") return <p>{JSON.stringify(error)}</p>;
 
 	return (
 		<>
-			<PageHeader>
-				<Title>FEM challenges</Title>
-				<Filter>
-					<NameFilter name={search} onSearch={onSearch} />
-				</Filter>
-			</PageHeader>
-			<ul
+			<AppHeader />
+			<Content
+				as="main"
 				css={`
-					width: 100%;
-					display: grid;
-					grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-					grid-auto-rows: minmax(380px, auto);
-					gap: 2.5rem;
-					padding-bottom: 2rem;
+					padding-bottom: 10vh;
 				`}
 			>
-				{challenges.length ? (
-					challenges.map((challenge) => (
-						<li key={challenge.id}>
-							<Challenge {...challenge} />
-						</li>
-					))
-				) : (
-					<p>No data with given challenge name {search}</p>
-				)}
-			</ul>
+				<div
+					css={`
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						flex-wrap: wrap;
+						margin-bottom: calc(4vw + 3rem);
+						${mediaQueries.medium} {
+							margin-bottom: 4rem;
+						}
+					`}
+				>
+					<h2
+						css={`
+							display: none;
+							line-height: 1;
+							${mediaQueries.medium} {
+								display: inline-block;
+							}
+						`}
+					>
+						FEM challenges
+					</h2>
+					<div
+						css={`
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							flex-wrap: wrap;
+							width: 100%;
+							${mediaQueries.medium} {
+								width: auto;
+							}
+						`}
+					>
+						<NameFilter name={search} onSearch={onSearch} />
+					</div>
+				</div>
+				<ul
+					css={`
+						width: 100%;
+						display: grid;
+						grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+						grid-auto-rows: minmax(380px, auto);
+						gap: 2.5rem;
+						padding-bottom: 2rem;
+					`}
+				>
+					{challenges.length ? (
+						challenges.map((challenge) => (
+							<li key={challenge.id}>
+								<Challenge {...challenge} />
+							</li>
+						))
+					) : (
+						<p>No data with given challenge name {search}</p>
+					)}
+				</ul>
+			</Content>
 		</>
 	);
 }

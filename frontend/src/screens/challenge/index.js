@@ -1,10 +1,13 @@
+// eslint-disable-next-line
+import styled from "styled-components/macro";
+import * as mediaQueries from "styles/media-queries";
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import AppHeader from "components/header";
 import { useChallenge } from "hooks/challenges-hooks";
-import { Spinner } from "components/lib";
+import { Spinner, Content } from "components/lib";
 import ChallengeInfo from "./components/ChallengeInfo";
 import ChallengeSolutions from "./components/ChallengeSolutions";
-import { Wrapper } from "./styles";
 
 export default function ChallengeScreen() {
 	const { femId } = useParams();
@@ -16,11 +19,25 @@ export default function ChallengeScreen() {
 		}
 	}, [challenge]);
 	return (
-		<Wrapper>
-			{status === "loading" ? <Spinner /> : null}
-			{status === "failed" ? <p>{JSON.stringify(error)}</p> : null}
-			{status === "success" ? <ChallengeInfo challenge={challenge} /> : null}
-			<ChallengeSolutions femId={femId} total={total} />
-		</Wrapper>
+		<>
+			<AppHeader />
+			<Content
+				as="main"
+				css={`
+					${mediaQueries.large} {
+						display: grid;
+						grid-template-columns: 4fr 2fr;
+						grid-auto-rows: minmax(380px, auto);
+						gap: 2.5rem;
+						padding-bottom: 2rem;
+					}
+				`}
+			>
+				{status === "loading" ? <Spinner /> : null}
+				{status === "failed" ? <p>{JSON.stringify(error)}</p> : null}
+				{status === "success" ? <ChallengeInfo challenge={challenge} /> : null}
+				<ChallengeSolutions femId={femId} total={total} />
+			</Content>
+		</>
 	);
 }
