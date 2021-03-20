@@ -7,15 +7,24 @@ import * as React from "react";
 import { Content, Spinner } from "components/lib";
 import AppHeader from "components/header";
 import { useChallenges } from "hooks/challenges-hooks";
+import NameFilter from "components/Filter";
 import Challenge from "./components/Challenge";
-import { NameFilter } from "./components/Filter";
+import { useHistory, useLocation } from "react-router-dom";
+import * as qs from "query-string";
 
 export default function HomeScreen() {
-	const [search, setSearch] = React.useState("");
-	const onSearch = (search) => setSearch(search);
-
-	const [challenges, setChallenges] = React.useState([]);
+	const location = useLocation();
+	const history = useHistory();
+	const [search, setSearch] = React.useState(() => {
+		try {
+			return qs.parse(location.search).search;
+		} catch (e) {
+			return "";
+		}
+	});
 	const { status, error, data } = useChallenges();
+	const onSearch = (search) => setSearch(search);
+	const [challenges, setChallenges] = React.useState([]);
 
 	const queryClient = useQueryClient();
 	React.useEffect(() => {
@@ -27,6 +36,12 @@ export default function HomeScreen() {
 			result = cacheData;
 		}
 		setChallenges(result);
+		// update query string in brower URL bar
+		const params = { pathname: "/" };
+		if (search) {
+			params.search = `search=${encodeURIComponent(search)}`;
+		}
+		history.replace(params);
 	}, [data, search]);
 
 	if (["idle", "loading"].includes(status)) return <Spinner />;

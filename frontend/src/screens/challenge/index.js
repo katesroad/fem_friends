@@ -2,14 +2,16 @@
 import styled from "styled-components/macro";
 import * as mediaQueries from "styles/media-queries";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import AppHeader from "components/header";
+import NameFilter from "components/Filter";
 import { useChallenge } from "hooks/challenges-hooks";
 import { Spinner, Content } from "components/lib";
 import ChallengeInfo from "./components/ChallengeInfo";
 import ChallengeSolutions from "./components/ChallengeSolutions";
 
 export default function ChallengeScreen() {
+	const history = useHistory();
 	const { femId } = useParams();
 	const { data: challenge, status, error } = useChallenge(femId);
 	const [total, setTotal] = React.useState(0);
@@ -18,9 +20,27 @@ export default function ChallengeScreen() {
 			setTotal(challenge.solutions);
 		}
 	}, [challenge]);
+	const onSearch = (challengeName) => {
+		history.push({
+			search: `search=${encodeURIComponent(challengeName)}`,
+			pathname: "/",
+		});
+	};
 	return (
 		<>
-			<AppHeader />
+			<AppHeader>
+				<NameFilter
+					onSearch={onSearch}
+					css={`
+						box-shadow: none !important;
+						font-size: 14px;
+						input:focus {
+							border-radius: 6px;
+							border: 1px solid var(--shadow);
+						}
+					`}
+				/>
+			</AppHeader>
 			<Content
 				as="main"
 				css={`

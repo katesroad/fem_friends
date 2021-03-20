@@ -1,9 +1,10 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
 import * as React from "react";
-import { NavLink, ThemedElement, Content } from "components/lib";
+import { ThemedElement, Content } from "components/lib";
 import { Brand, ModeButton } from "./styles";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { useHistory } from "react-router";
 
 export const THEME_MODE = {
 	light: "light",
@@ -13,6 +14,7 @@ export const THEME_MODE = {
 const __THEME__KEY = "__theme__mode__key";
 
 export default function Header({ children }) {
+	const history = useHistory();
 	const [mode, setMode] = React.useState(() => {
 		try {
 			return localStorage.getItem(__THEME__KEY) || THEME_MODE.light;
@@ -46,11 +48,20 @@ export default function Header({ children }) {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					.logo {
+						cursor: pointer;
+					}
 				`}
 			>
-				<NavLink to="/">
+				<span
+					onClick={() => {
+						history.replace({ pathname: "/", search: "" });
+						window.location.reload();
+					}}
+					className="logo"
+				>
 					<Brand>Web DEV's Hub</Brand>
-				</NavLink>
+				</span>
 				<div
 					css={`
 						display: flex;
