@@ -55,8 +55,7 @@ export default function Header({ children }) {
 			>
 				<span
 					onClick={() => {
-						history.replace({ pathname: "/", search: "" });
-						window.location.reload();
+						window.location = "/";
 					}}
 					className="logo"
 				>
