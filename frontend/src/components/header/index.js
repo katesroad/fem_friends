@@ -55,7 +55,7 @@ export default function Header({ children }) {
 			>
 				<span
 					onClick={() => {
-						window.location = "/";
+						history.push("/");
 					}}
 					className="logo"
 				>
