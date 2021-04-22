@@ -3,7 +3,7 @@ import { Content } from "components/lib";
 import styled from "styled-components";
 import * as mediaQueries from "styles/media-queries";
 
-export const NameFilterAtHome = styled(NameFilter)`
+export const NameFilterAtHeader = styled(NameFilter)`
   display: none;
   box-shadow: none !important;
   font-size: 14px;

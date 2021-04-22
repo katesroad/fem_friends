@@ -5,7 +5,7 @@ import { useChallenge } from "hooks/challenges-hooks";
 import { Spinner } from "components/lib";
 import ChallengeInfo from "./components/ChallengeInfo";
 import ChallengeSolutions from "./components/ChallengeSolutions";
-import { NameFilterAtHome, ChalengesWrap } from "./components/styled";
+import { NameFilterAtHeader, ChalengesWrap } from "./components/styled";
 
 export default function ChallengeScreen() {
   const history = useHistory();
@@ -26,7 +26,7 @@ export default function ChallengeScreen() {
   return (
     <>
       <AppHeader>
-        <NameFilterAtHome onSearch={onSearch} />
+        <NameFilterAtHeader onSearch={onSearch} />
       </AppHeader>
       <ChalengesWrap>
         {status === "loading" ? <Spinner /> : null}

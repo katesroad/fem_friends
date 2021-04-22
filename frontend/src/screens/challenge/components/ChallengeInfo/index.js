@@ -13,11 +13,7 @@ import {
 export default function Challenge({ challenge }) {
   if (!challenge)
     return (
-      <Wrapper
-        css={`
-          justify-content: center;
-        `}
-      >
+      <Wrapper className="content-centered">
         <h2>Challenge does not exist </h2>
       </Wrapper>
     );
@@ -36,13 +32,7 @@ export default function Challenge({ challenge }) {
           <InfoItemName>Languages:</InfoItemName>
           {challenge.languages.join(",")}
         </InfoItem>
-        <InfoItem
-          css={`
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          `}
-        >
+        <InfoItem className="is-spreaded">
           <span>
             <InfoItemName>Difficulty:</InfoItemName>
             {challenge.difficulty}

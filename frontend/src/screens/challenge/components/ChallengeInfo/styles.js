@@ -15,6 +15,9 @@ const InfoItem = styled.p`
   flex-wrap: wrap;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  &.is-spreaded {
+    justify-content: space-between;
+  }
 `;
 
 const InfoItemName = styled.strong`
@@ -46,6 +49,9 @@ const Wrapper = styled(OutLink)`
     img {
       max-width: 50%;
     }
+  }
+  &.content-centered{
+    justify-content: center;
   }
 `;
 

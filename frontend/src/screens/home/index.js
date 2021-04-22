@@ -1,16 +1,14 @@
-// eslint-disable-next-line
-import styled from "styled-components/macro";
-import * as mediaQueries from "styles/media-queries";
 import { matchSorter } from "match-sorter";
 import { useQueryClient } from "react-query";
+import * as qs from "query-string";
 import * as React from "react";
-import { Content, FullscreenSpinner } from "components/lib";
+import { FullscreenSpinner } from "components/lib";
 import AppHeader from "components/header";
 import { useChallenges } from "hooks/challenges-hooks";
 import NameFilter from "components/Filter";
-import Challenge from "./components/Challenge";
 import { useHistory, useLocation } from "react-router-dom";
-import * as qs from "query-string";
+import { ChallengesWrap, PageContent } from "./components/styled";
+import Challenge from "./components/Challenge";
 
 export default function HomeScreen() {
   const location = useLocation();
@@ -48,65 +46,19 @@ export default function HomeScreen() {
     return <FullscreenSpinner />;
   }
 
-  if (status === "failed") return <p>{JSON.stringify(error)}</p>;
+  if (status === "error") return <p>{JSON.stringify(error)}</p>;
 
   return (
     <>
       <AppHeader />
-      <Content
-        as="main"
-        css={`
-          padding-bottom: 10vh;
-        `}
-      >
-        <div
-          css={`
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: calc(4vw + 3rem);
-            ${mediaQueries.medium} {
-              margin-bottom: 4rem;
-            }
-          `}
-        >
-          <h2
-            css={`
-              display: none;
-              line-height: 1;
-              ${mediaQueries.medium} {
-                display: inline-block;
-              }
-            `}
-          >
-            FEM challenges
-          </h2>
-          <div
-            css={`
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              width: 100%;
-              ${mediaQueries.medium} {
-                width: auto;
-              }
-            `}
-          >
+      <PageContent>
+        <div className="page-header">
+          <h2>FEM challenges</h2>
+          <div className="filte-wrap">
             <NameFilter name={search} onSearch={onSearch} />
           </div>
         </div>
-        <ul
-          css={`
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            grid-auto-rows: minmax(380px, auto);
-            gap: 2.5rem;
-            padding-bottom: 2rem;
-          `}
-        >
+        <ChallengesWrap>
           {challenges.length ? (
             challenges.map((challenge) => (
               <li key={challenge.id}>
@@ -116,8 +68,8 @@ export default function HomeScreen() {
           ) : (
             <p>No data with given challenge name {search}</p>
           )}
-        </ul>
-      </Content>
+        </ChallengesWrap>
+      </PageContent>
     </>
   );
 }
