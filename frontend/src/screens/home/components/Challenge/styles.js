@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
 
 const ChallengeName = styled.h3`
   margin-top: 0.5rem;
@@ -13,6 +14,9 @@ const InfoItem = styled.p`
   flex-wrap: wrap;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  &.is-spreaded {
+    justify-content: space-between;
+  }
 `;
 
 const InfoItemName = styled.strong`
@@ -26,6 +30,16 @@ const InfoItemName = styled.strong`
 
 const ChallengeIntro = styled.div`
   padding: 1rem 1.5rem;
+`;
+
+export const Wrapper = styled(Link)`
+  display: block;
+  height: 100%;
+  color: var(--text-color);
+  background-color: var(--elements-background);
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 4px var(--shadow);
 `;
 
 export { ChallengeName, InfoItem, InfoItemName, ChallengeIntro };
