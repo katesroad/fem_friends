@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import * as mediaQueries from "styles/media-queries";
-import styled, { keyframes } from "styled-components";
-import { FaSpinner } from "react-icons/fa";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
+
+export * from "./spinner";
 
 const themeStyles = css`
   color: var(--text-color);
@@ -12,22 +12,6 @@ const ThemedElement = styled.div`
   ${themeStyles}
 `;
 ThemedElement.displayName = "ThemedElement";
-
-const spin = keyframes`
-  0% {
-	transform: rotate(0deg)
-  }
-  100% {
-	transform: rotate(360deg)
-  }
-`;
-const Spinner = styled(FaSpinner)`
-  animation: ${spin} 1s linear infinite;
-`;
-Spinner.defaultProps = {
-  "aria-label": "loading",
-};
-Spinner.displayName = "Spinner";
 
 const NavLink = styled(Link)`
   text-decoration: none;
@@ -72,12 +56,4 @@ const LinkButton = styled(Link)`
 `;
 LinkButton.displayName = "LinkButton";
 
-export {
-  NavLink,
-  Content,
-  OutLink,
-  Spinner,
-  themeStyles,
-  ThemedElement,
-  Button,
-};
+export { NavLink, Content, OutLink, themeStyles, ThemedElement, Button };

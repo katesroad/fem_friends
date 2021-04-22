@@ -4,7 +4,7 @@ import * as mediaQueries from "styles/media-queries";
 import { matchSorter } from "match-sorter";
 import { useQueryClient } from "react-query";
 import * as React from "react";
-import { Content, Spinner } from "components/lib";
+import { Content, FullscreenSpinner } from "components/lib";
 import AppHeader from "components/header";
 import { useChallenges } from "hooks/challenges-hooks";
 import NameFilter from "components/Filter";
@@ -45,23 +45,7 @@ export default function HomeScreen() {
   }, [data, search]);
 
   if (["idle", "loading"].includes(status)) {
-    return (
-      <div
-        css={`
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-        `}
-      >
-        <Spinner />
-      </div>
-    );
+    return <FullscreenSpinner />;
   }
 
   if (status === "failed") return <p>{JSON.stringify(error)}</p>;
