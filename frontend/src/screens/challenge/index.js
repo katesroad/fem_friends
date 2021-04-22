@@ -1,14 +1,11 @@
-// eslint-disable-next-line
-import styled from "styled-components/macro";
-import * as mediaQueries from "styles/media-queries";
 import * as React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import AppHeader from "components/header";
-import NameFilter from "components/Filter";
 import { useChallenge } from "hooks/challenges-hooks";
-import { Spinner, Content } from "components/lib";
+import { Spinner } from "components/lib";
 import ChallengeInfo from "./components/ChallengeInfo";
 import ChallengeSolutions from "./components/ChallengeSolutions";
+import { NameFilterAtHome, ChalengesWrap } from "./components/styled";
 
 export default function ChallengeScreen() {
   const history = useHistory();
@@ -29,39 +26,14 @@ export default function ChallengeScreen() {
   return (
     <>
       <AppHeader>
-        <NameFilter
-          onSearch={onSearch}
-          css={`
-            display: none;
-            box-shadow: none !important;
-            font-size: 14px;
-            input:focus {
-              border-radius: 6px;
-              border: 1px solid var(--shadow);
-            }
-            ${mediaQueries.small} {
-              display: flex;
-            }
-          `}
-        />
+        <NameFilterAtHome onSearch={onSearch} />
       </AppHeader>
-      <Content
-        as="main"
-        css={`
-          ${mediaQueries.large} {
-            display: grid;
-            grid-template-columns: 4fr 2fr;
-            grid-auto-rows: minmax(380px, auto);
-            gap: 2.5rem;
-            padding-bottom: 2rem;
-          }
-        `}
-      >
+      <ChalengesWrap>
         {status === "loading" ? <Spinner /> : null}
         {status === "failed" ? <p>{JSON.stringify(error)}</p> : null}
         {status === "success" ? <ChallengeInfo challenge={challenge} /> : null}
         <ChallengeSolutions femId={femId} total={total} />
-      </Content>
+      </ChalengesWrap>
     </>
   );
 }
