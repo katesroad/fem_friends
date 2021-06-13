@@ -1,7 +1,7 @@
-import NameFilter from "components/Filter";
-import { Content } from "components/lib";
-import styled from "styled-components";
-import * as mediaQueries from "styles/media-queries";
+import NameFilter from 'components/Filter'
+import { Content } from 'components/lib'
+import styled from 'styled-components'
+import * as mediaQueries from 'styles/media-queries'
 
 export const NameFilterAtHeader = styled(NameFilter)`
   display: none;
@@ -14,9 +14,9 @@ export const NameFilterAtHeader = styled(NameFilter)`
   ${mediaQueries.small} {
     display: flex;
   }
-`;
+`
 
-export const ChalengesWrap = styled(Content).attrs(() =>({as:'main'}))`
+export const ChalengesWrap = styled(Content).attrs(() => ({ as: 'main' }))`
   ${mediaQueries.large} {
     display: grid;
     grid-template-columns: 4fr 2fr;
@@ -24,4 +24,4 @@ export const ChalengesWrap = styled(Content).attrs(() =>({as:'main'}))`
     gap: 2.5rem;
     padding-bottom: 2rem;
   }
-`;
+`

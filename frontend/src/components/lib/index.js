@@ -1,21 +1,21 @@
-import { Link } from "react-router-dom";
-import * as mediaQueries from "styles/media-queries";
-import styled, { css } from "styled-components";
+import { Link } from 'react-router-dom'
+import * as mediaQueries from 'styles/media-queries'
+import styled, { css } from 'styled-components'
 
-export * from "./spinner";
+export * from './spinner'
 
 const themeStyles = css`
   color: var(--text-color);
   background-color: var(--elements-background);
-`;
+`
 const ThemedElement = styled.div`
   ${themeStyles}
-`;
-ThemedElement.displayName = "ThemedElement";
+`
+ThemedElement.displayName = 'ThemedElement'
 
 const NavLink = styled(Link)`
   text-decoration: none;
-`;
+`
 
 const Content = styled.div`
   padding-left: 16px;
@@ -36,24 +36,24 @@ const Content = styled.div`
     margin-left: auto;
     margin-right: auto;
   }
-`;
-Content.displayName = "Content";
+`
+Content.displayName = 'Content'
 
 const OutLink = styled.a.attrs(() => ({
-  target: "_blank",
-  rel: "noreferrer",
+  target: '_blank',
+  rel: 'noreferrer',
 }))`
   color: inherit;
-`;
+`
 
 const Button = styled.button`
   ${themeStyles}
-`;
-Button.displayName = "Button";
+`
+Button.displayName = 'Button'
 
 const LinkButton = styled(Link)`
   ${themeStyles}
-`;
-LinkButton.displayName = "LinkButton";
+`
+LinkButton.displayName = 'LinkButton'
 
-export { NavLink, Content, OutLink, themeStyles, ThemedElement, Button };
+export { NavLink, Content, OutLink, themeStyles, ThemedElement, Button }

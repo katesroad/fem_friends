@@ -1,11 +1,11 @@
-import * as React from "react";
+import * as React from 'react'
 import {
   ChallengeName,
   InfoItem,
   InfoItemName,
   ChallengeIntro,
   Wrapper,
-} from "./styles";
+} from './styles'
 
 export default function Challenge({ ...challenge }) {
   return (
@@ -15,7 +15,7 @@ export default function Challenge({ ...challenge }) {
         <ChallengeName>{challenge.title}</ChallengeName>
         <InfoItem>
           <InfoItemName>Languages:</InfoItemName>
-          {challenge.languages.join(",")}
+          {challenge.languages.join(',')}
         </InfoItem>
         <InfoItem className="is-spreaded">
           <span>
@@ -29,5 +29,5 @@ export default function Challenge({ ...challenge }) {
         </InfoItem>
       </ChallengeIntro>
     </Wrapper>
-  );
+  )
 }

@@ -1,39 +1,39 @@
 // eslint-disable-next-line
-import styled from "styled-components/macro";
-import * as React from "react";
-import { ThemedElement, Content } from "components/lib";
-import { Brand, ModeButton } from "./styles";
-import { FaMoon, FaSun } from "react-icons/fa";
-import { useHistory } from "react-router";
+import styled from 'styled-components/macro'
+import * as React from 'react'
+import { ThemedElement, Content } from 'components/lib'
+import { Brand, ModeButton } from './styles'
+import { FaMoon, FaSun } from 'react-icons/fa'
+import { useHistory } from 'react-router'
 
 export const THEME_MODE = {
-  light: "light",
-  dark: "dark",
-};
+  light: 'light',
+  dark: 'dark',
+}
 
-const __THEME__KEY = "__theme__mode__key";
+const __THEME__KEY = '__theme__mode__key'
 
 export default function Header({ children }) {
-  const history = useHistory();
+  const history = useHistory()
   const [mode, setMode] = React.useState(() => {
     try {
-      return localStorage.getItem(__THEME__KEY) || THEME_MODE.light;
+      return localStorage.getItem(__THEME__KEY) || THEME_MODE.light
     } catch (e) {
-      return THEME_MODE.light;
+      return THEME_MODE.light
     }
-  });
+  })
   const toggleMode = () => {
     setMode((mode) => {
       mode === THEME_MODE.light
         ? setMode(THEME_MODE.dark)
-        : setMode(THEME_MODE.light);
-    });
-    return false;
-  };
+        : setMode(THEME_MODE.light)
+    })
+    return false
+  }
   React.useEffect(() => {
-    document.body.dataset.theme = mode;
-    localStorage.setItem(__THEME__KEY, mode);
-  }, [mode]);
+    document.body.dataset.theme = mode
+    localStorage.setItem(__THEME__KEY, mode)
+  }, [mode])
   return (
     <ThemedElement
       as="header"
@@ -55,7 +55,7 @@ export default function Header({ children }) {
       >
         <span
           onClick={() => {
-            history.push("/");
+            history.push('/')
           }}
           className="logo"
         >
@@ -69,11 +69,11 @@ export default function Header({ children }) {
         >
           {children}
           <ModeButton onClick={toggleMode}>
-            {mode === "light" ? <FaMoon /> : <FaSun />}
-            <span>{mode === "light" ? "dark" : "light"} </span>
+            {mode === 'light' ? <FaMoon /> : <FaSun />}
+            <span>{mode === 'light' ? 'dark' : 'light'} </span>
           </ModeButton>
         </div>
       </Content>
     </ThemedElement>
-  );
+  )
 }

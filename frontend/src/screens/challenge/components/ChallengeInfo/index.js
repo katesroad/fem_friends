@@ -1,6 +1,6 @@
 // eslint-disable-next-line
-import styled from "styled-components/macro";
-import * as React from "react";
+import styled from 'styled-components/macro'
+import * as React from 'react'
 import {
   ChallengeName,
   InfoItem,
@@ -8,7 +8,7 @@ import {
   ChallengeIntro,
   Wrapper,
   ChallengeImg,
-} from "./styles";
+} from './styles'
 
 export default function Challenge({ challenge }) {
   if (!challenge)
@@ -16,7 +16,7 @@ export default function Challenge({ challenge }) {
       <Wrapper className="content-centered">
         <h2>Challenge does not exist </h2>
       </Wrapper>
-    );
+    )
   return (
     <Wrapper
       href={`https://www.frontendmentor.io/challenges/${challenge.slug}`}
@@ -30,7 +30,7 @@ export default function Challenge({ challenge }) {
         <ChallengeName>{challenge.title}</ChallengeName>
         <InfoItem>
           <InfoItemName>Languages:</InfoItemName>
-          {challenge.languages.join(",")}
+          {challenge.languages.join(',')}
         </InfoItem>
         <InfoItem className="is-spreaded">
           <span>
@@ -44,5 +44,5 @@ export default function Challenge({ challenge }) {
         </InfoItem>
       </ChallengeIntro>
     </Wrapper>
-  );
+  )
 }

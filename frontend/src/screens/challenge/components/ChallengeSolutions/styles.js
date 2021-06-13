@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import "@reach/tooltip/styles.css";
-import * as mediaQueries from "styles/media-queries";
+import styled from 'styled-components'
+import '@reach/tooltip/styles.css'
+import * as mediaQueries from 'styles/media-queries'
 
 const Avatar = styled.div`
   display: block;
@@ -10,19 +10,19 @@ const Avatar = styled.div`
   background-position: center;
   background-size: 120% auto;
   background-repeat: no-repeat;
-`;
+`
 
 const OutLink = styled.a.attrs(() => ({
-  target: "_blank",
-  rel: "noreferrer",
+  target: '_blank',
+  rel: 'noreferrer',
 }))`
   color: inherit;
-`;
+`
 
 const Author = styled(OutLink)`
   text-align: center;
   color: inherit;
-`;
+`
 const SolutionLinks = styled.div`
   display: flex;
   justify-content: space-between;
@@ -32,7 +32,7 @@ const SolutionLinks = styled.div`
     font-size: 1.25rem;
     margin: 0 16px;
   }
-`;
+`
 
 const SubmitedDate = styled.small`
   display: flex;
@@ -41,27 +41,27 @@ const SubmitedDate = styled.small`
     margin-right: 4px;
     font-size: 1.25rem;
   }
-`;
+`
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
+`
 
 const SolutionList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-`;
+`
 
 const SolutionTitle = styled.h2`
   margin: 4rem auto 2rem;
   ${mediaQueries.medium} {
     margin-top: 1rem;
   }
-`;
+`
 
 const Button = styled.button`
   padding: 4px 16px;
@@ -73,7 +73,7 @@ const Button = styled.button`
     cursor: not-allowed;
     background-color: gray;
   }
-`;
+`
 
 const Title = styled.h2`
   display: flex;
@@ -85,7 +85,7 @@ const Title = styled.h2`
       display: none;
     }
   }
-`;
+`
 
 const ButtonGroup = styled.p`
   display: none;
@@ -94,7 +94,7 @@ const ButtonGroup = styled.p`
     display: block;
     margin-bottom: 16px;
   }
-`;
+`
 
 export {
   Avatar,
@@ -108,4 +108,4 @@ export {
   Button,
   Title,
   ButtonGroup,
-};
+}

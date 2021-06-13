@@ -1,10 +1,10 @@
-import GlobalStyles from "components/Globalstyles";
-import * as React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import GlobalStyles from 'components/Globalstyles'
+import * as React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 export default function AppProvider({ children }) {
-  const client = new QueryClient();
+  const client = new QueryClient()
   return (
     <QueryClientProvider client={client}>
       <GlobalStyles />
@@ -15,5 +15,5 @@ export default function AppProvider({ children }) {
         </Switch>
       </BrowserRouter>
     </QueryClientProvider>
-  );
+  )
 }

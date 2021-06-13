@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Content } from "components/lib";
-import * as mediaQueries from "styles/media-queries";
+import styled from 'styled-components'
+import { Content } from 'components/lib'
+import * as mediaQueries from 'styles/media-queries'
 
 export const ChallengesWrap = styled.ul`
   width: 100%;
@@ -9,9 +9,9 @@ export const ChallengesWrap = styled.ul`
   grid-auto-rows: minmax(380px, auto);
   gap: 2.5rem;
   padding-bottom: 2rem;
-`;
+`
 
-export const PageContent = styled(Content).attrs(() => ({ as: "main" }))`
+export const PageContent = styled(Content).attrs(() => ({ as: 'main' }))`
   padding-bottom: 10vh;
 
   .page-header {
@@ -41,4 +41,4 @@ export const PageContent = styled(Content).attrs(() => ({ as: "main" }))`
       }
     }
   }
-`;
+`

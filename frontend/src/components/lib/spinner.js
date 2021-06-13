@@ -1,6 +1,6 @@
 import React from 'react'
-import styled, { keyframes } from "styled-components/macro";
-import { FaSpinner } from "react-icons/fa";
+import styled, { keyframes } from 'styled-components/macro'
+import { FaSpinner } from 'react-icons/fa'
 
 const spin = keyframes`
   0% {
@@ -9,14 +9,14 @@ const spin = keyframes`
   100% {
 	transform: rotate(360deg)
   }
-`;
+`
 export const Spinner = styled(FaSpinner)`
   animation: ${spin} 1s linear infinite;
-`;
+`
 Spinner.defaultProps = {
-  "aria-label": "loading",
-};
-Spinner.displayName = "Spinner";
+  'aria-label': 'loading',
+}
+Spinner.displayName = 'Spinner'
 
 export const FullscreenSpinner = () => {
   return (
@@ -35,5 +35,5 @@ export const FullscreenSpinner = () => {
     >
       <Spinner />
     </div>
-  );
-};
+  )
+}
